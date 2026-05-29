@@ -14,10 +14,11 @@ This project provides an automated solution using Ansible to deploy a High Avail
 
 1. **Copy the configuration template:**
    Create your local `secret.yml` file from the example and add your actual credentials:
-```bash
+```
    cp secret.yml.example secret.yml
-   nano secret.yml
-   
+   secret.yml
+   ansible-vault edit secret.yml
+```
 Edit the Inventory:
 
 Update the inventory file with the correct IP addresses of your servers.
