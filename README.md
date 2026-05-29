@@ -2,7 +2,7 @@
 
 This project provides an automated solution using Ansible to deploy a High Availability (HA) MariaDB Galera Cluster, paired with an HAProxy load balancer in an Active-Passive (automatic failover) configuration.
 
-## 📂 Project Structure
+##  Project Structure
 - **`inventory`**: Inventory file defining cluster nodes and their assigned roles (Master/Backup).
 - **`roles`**: Modular roles for installing and configuring MariaDB and HAProxy.
 - **`main.yml`**: The primary Ansible Playbook to deploy the entire stack across the nodes.
@@ -10,7 +10,7 @@ This project provides an automated solution using Ansible to deploy a High Avail
 
 ---
 
-## 🚀 Quick Start Guide
+##  Quick Start Guide
 
 1. **Copy the configuration template:**
    Create your local `secret.yml` file from the example and add your actual credentials:
