@@ -1,0 +1,25 @@
+---
+- name: Install MariaDB, Galera and tools
+  apt:
+    name:
+      - mariadb-server
+      - mariadb-client
+      - galera-4
+      - rsync
+      - socat         
+    state: present
+    update_cache: yes
+
+- name: Copy Galera Config
+  template:
+    src: 50-server.cnf.j2
+    dest: /etc/mysql/mariadb.conf.d/50-server.cnf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Ensure MariaDB is stopped 
+  service:
+    name: mariadb
+    state: stopped
+

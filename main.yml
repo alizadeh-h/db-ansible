@@ -1,0 +1,28 @@
+---
+- hosts: all
+  become: yes
+  vars_files:
+    - secret.yml
+  roles:
+    - role: preinstall
+  gather_facts: yes
+  tags: [before]
+
+- hosts: db_servers
+  become: yes
+  vars_files:
+    - secret.yml
+  roles:
+    - role: mariadb
+  gather_facts: yes
+  tags: [after]
+
+- hosts: loadbalancer
+  become: yes
+  vars_files:
+    - secret.yml
+  roles:
+    - haproxy
+  gather_facts: yes
+  tags: [lb]
+

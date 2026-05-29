@@ -1,0 +1,7 @@
+---
+# vars file for mariadb
+
+replication_user: "repl"
+master_log_file: "mysql-bin.000002"
+master_log_pos: 328
+

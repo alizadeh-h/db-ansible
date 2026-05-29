@@ -1,0 +1,34 @@
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    chroot /var/lib/haproxy
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log     global
+    mode    tcp
+    option  tcplog
+    timeout connect 5000ms
+    timeout client  50000ms
+    timeout server  50000ms
+
+listen stats
+    bind *:8080
+    mode http
+    stats enable
+    stats uri /stats
+    stats refresh 10s
+
+listen mariadb_cluster
+    bind *:3306
+    mode tcp
+    option mysql-check user haproxy_check
+    
+    balance first
+    
+    server db1 192.168.1.122:3306 check
+    server db2 192.168.1.123:3306 check backup
+    server db3 192.168.1.124:3306 check backup
+
