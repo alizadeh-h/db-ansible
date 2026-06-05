@@ -1,0 +1,20 @@
+DNS1: "217.218.155.155"
+DNS2: "4.2.2.4"
+
+mysql_port: 3306
+haproxy_balance: first
+haproxy_check_user: haproxy_check
+haproxy_stats_port: 8080
+
+mariadb_full_version: "1:10.11.14-0ubuntu0.24.04.1"
+galera_full_version: "26.4.16-2build4"
+
+mariadb_server_package: "mariadb-server={{ mariadb_full_version }}"
+mariadb_client_package: "mariadb-client={{ mariadb_full_version }}"
+galera_package: "galera-4={{ galera_full_version }}"
+rsync_package: rsync
+socat_package: socat
+
+mariadb_package_state: present
+
+galera_config_path: /etc/mysql/mariadb.conf.d/50-server.cnf

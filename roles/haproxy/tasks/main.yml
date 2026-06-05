@@ -1,0 +1,24 @@
+---
+# tasks file for haproxy
+
+- name: Install HAProxy
+  apt:
+    name: haproxy
+    state: present
+    update_cache: yes
+
+- name: Enable HAProxy service
+  systemd:
+    name: haproxy
+    enabled: yes
+    state: started
+
+- name: Configure HAProxy 
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart haproxy
+

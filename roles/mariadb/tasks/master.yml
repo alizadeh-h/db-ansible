@@ -1,0 +1,38 @@
+---
+- name: Configure MariaDB Master 
+  blockinfile:
+    path: /etc/mysql/mariadb.conf.d/50-server.cnf
+    insertafter: '\[mysqld\]'
+    block: |
+      server-id = 2
+      log_bin   = /var/log/mysql/mysql-bin.log
+      bind-address = 0.0.0.0
+  notify: restart mariadb
+
+- name: log directory
+  file:
+    path: /var/log/mysql
+    state: directory
+    owner: mysql
+    group: mysql
+    mode: '0755'
+
+- name: ownership
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: mysql
+    group: mysql
+    recurse: yes
+  loop:
+    - /var/lib/mysql
+    - /var/log/mysql
+
+- name: Create Replication User
+  mysql_user:
+    name: "replication_user"
+    password: "{{ replication_password }}"
+    priv: '*.*:REPLICATION SLAVE'
+    host: "%"
+    state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock

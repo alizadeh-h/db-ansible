@@ -1,0 +1,33 @@
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    chroot /var/lib/haproxy
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log     global
+    mode    tcp
+    option  tcplog
+    timeout connect 5000ms
+    timeout client  50000ms
+    timeout server  50000ms
+
+listen stats
+    bind *:{{ haproxy_stats_port }}
+    mode http
+    stats enable
+    stats uri /stats
+    stats refresh 10s
+
+listen mariadb_cluster
+    bind *:{{ mysql_port }}
+    mode tcp
+    option mysql-check user {{ haproxy_check_user }}
+    balance {{ haproxy_balance }}
+
+{% for host in groups['db_servers'] %}
+    server {{ host }} {{ hostvars[host]['ansible_host'] }}:{{ mysql_port }} check
+{% endfor %}
+

@@ -1,0 +1,34 @@
+---
+- name: Install MariaDB, Galera and tools
+  apt:
+    name:
+      - "{{ mariadb_server_package }}"
+      - "{{ mariadb_client_package }}"
+      - "{{ galera_package }}"
+      - "{{ rsync_package }}"
+      - "{{ socat_package }}"
+    state: "{{ mariadb_package_state }}"
+    update_cache: yes
+
+- name: Copy Galera Config
+  template:
+    src: 50-server.cnf.j2
+    dest: "{{ galera_config_path }}"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Ensure MariaDB is stopped 
+  service:
+    name: mariadb
+    state: stopped
+
+
+- name: Include master tasks
+  import_tasks: master.yml
+  when: inventory_hostname in groups['db_master']
+
+- name: Include slave tasks
+  import_tasks: slave.yml
+  when: inventory_hostname in groups['db_slaves']
+

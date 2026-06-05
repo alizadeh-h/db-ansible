@@ -1,0 +1,18 @@
+---
+# tasks file for preinstall
+
+
+- name: Replace ArvanCloud mirror with ir.archive.ubuntu.com
+  replace:
+    path: /etc/apt/sources.list.d/ubuntu.sources
+    regexp: 'http://mirror\.arvancloud\.ir/ubuntu/'
+    replace: 'http://ir.archive.ubuntu.com/ubuntu/'
+  become: true
+
+- name: copy resolv.conf
+  template:
+    src: "resolv.conf.j2"
+    dest: "/etc/resolv.conf"
+    mode: "644"
+
+
