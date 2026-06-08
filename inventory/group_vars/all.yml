@@ -11,9 +11,13 @@ galera_full_version: "26.4.16-2build4"
 
 mariadb_server_package: "mariadb-server={{ mariadb_full_version }}"
 mariadb_client_package: "mariadb-client={{ mariadb_full_version }}"
+
 galera_package: "galera-4={{ galera_full_version }}"
-rsync_package: rsync
-socat_package: socat
+
+rsync_package: "rsync=3.2.7-1ubuntu1.4"
+socat_package: "socat=1.8.0.0-4build3"
+
+haproxy_package: "haproxy=2.8.16-0ubuntu0.24.04.2"
 
 mariadb_package_state: present
 

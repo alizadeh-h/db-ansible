@@ -17,18 +17,28 @@
     owner: root
     group: root
     mode: '0644'
+  notify: restart mariadb
 
-- name: Ensure MariaDB is stopped 
+- name: Ensure mysql log directory exists
+  file:
+    path: /var/log/mysql
+    state: directory
+    owner: mysql
+    group: mysql
+    mode: '0755'
+
+- name: Ensure mysql directories ownership
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: mysql
+    group: mysql
+  loop:
+    - /var/lib/mysql
+    - /var/log/mysql
+
+- name: Ensure MariaDB started
   service:
     name: mariadb
-    state: stopped
-
-
-- name: Include master tasks
-  import_tasks: master.yml
-  when: inventory_hostname in groups['db_master']
-
-- name: Include slave tasks
-  import_tasks: slave.yml
-  when: inventory_hostname in groups['db_slaves']
-
+    state: started
+    enabled: true

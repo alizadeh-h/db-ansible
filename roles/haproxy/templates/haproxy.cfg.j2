@@ -28,6 +28,5 @@ listen mariadb_cluster
     balance {{ haproxy_balance }}
 
 {% for host in groups['db_servers'] %}
-    server {{ host }} {{ hostvars[host]['ansible_host'] }}:{{ mysql_port }} check
+    server {{ host }} {{ hostvars[host]['private_ip'] }}:{{ mysql_port }} check
 {% endfor %}
-
